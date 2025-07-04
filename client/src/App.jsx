@@ -138,9 +138,7 @@ function App() {
               </li>
             </ul>
           </div>
-          <div className="bill-history">
-            <img src={light} /> BOHECO UNO BILLING SYSTEM <img src={light} />
-          </div>
+          <div className="bill-history"></div>
           <div
             className="content"
             style={{
@@ -212,17 +210,6 @@ function App() {
                 </tbody>
               </table>
             </div>
-          </div>
-          <div
-            style={{
-              color: "black",
-              fontSize: "13px",
-              fontStyle: "italic",
-              marginTop: "1px",
-            }}
-          >
-            {" "}
-            © 2025 Bohol I Electric Cooperative, Inc. All Rights Reserved.
           </div>
         </div>
       )}
