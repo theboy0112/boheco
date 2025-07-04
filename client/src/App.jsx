@@ -18,21 +18,21 @@ function App() {
 
   const fetchData = async () => {
     setLoading(true);
-    const transactionUrl = `http://119.93.33.254:8447/inquiry-api/public/api/get-latest-bills?q=${accountNumber}`;
-    const accountUserUrl = `http://119.93.33.254:8447/inquiry-api/public/api/get-account-by-account-number?acctNo=${accountNumber}`;
+    const cleanedAccountNumber = accountNumber.trim();
+    const transactionUrl = `http://119.93.33.254:8447/inquiry-api/public/api/get-latest-bills?q=${cleanedAccountNumber}`;
+    const accountUserUrl = `http://119.93.33.254:8447/inquiry-api/public/api/get-account-by-account-number?acctNo=${cleanedAccountNumber}`;
 
     try {
       const [transactionRes, userRes] = await Promise.all([
         fetch(transactionUrl),
         fetch(accountUserUrl),
       ]);
+      const transactionData = await transactionRes.json();
+      const userInfo = await userRes.json();
 
       if (!transactionRes.ok || !userRes.ok) {
         throw new Error("One of the requests failed");
       }
-
-      const transactionData = await transactionRes.json();
-      const userInfo = await userRes.json();
 
       setUserData(userInfo);
       setTransactionDataResult(transactionData);
