@@ -6,6 +6,7 @@ import location from "./assets/location.png";
 import name from "./assets/name.png";
 import contact from "./assets/contact.png";
 import email from "./assets/email.png";
+import bg from "./assets/bg.jpg";
 
 import light from "./assets/light.png";
 
@@ -16,43 +17,42 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
 
- const fetchData = async () => {
-  setLoading(true);
-  const cleanedAccountNumber = accountNumber.trim();
+  const fetchData = async () => {
+    setLoading(true);
+    const cleanedAccountNumber = accountNumber.trim();
 
+    const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
+    const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
 
-  const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
-  const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
+    try {
+      const [transactionRes, userRes] = await Promise.all([
+        fetch(transactionUrl),
+        fetch(accountUserUrl),
+      ]);
 
-  try {
-    const [transactionRes, userRes] = await Promise.all([
-      fetch(transactionUrl),
-      fetch(accountUserUrl),
-    ]);
+      if (!transactionRes.ok || !userRes.ok) {
+        throw new Error("One of the requests failed");
+      }
 
-    if (!transactionRes.ok || !userRes.ok) {
-      throw new Error("One of the requests failed");
+      const transactionData = await transactionRes.json();
+      const userInfo = await userRes.json();
+
+      if (userInfo.error || transactionData.error) {
+        throw new Error(userInfo.error || transactionData.error);
+      }
+
+      setUserData(userInfo);
+      setTransactionDataResult(transactionData);
+      setIsLoggedIn(true);
+    } catch (err) {
+      console.error("❌ Error fetching data:", err.message);
+      setUserData(null);
+      setTransactionDataResult([]);
+      alert("⛔ " + err.message);
+    } finally {
+      setLoading(false);
     }
-
-    const transactionData = await transactionRes.json();
-    const userInfo = await userRes.json();
-
-    if (userInfo.error || transactionData.error) {
-      throw new Error(userInfo.error || transactionData.error);
-    }
-
-    setUserData(userInfo);
-    setTransactionDataResult(transactionData);
-    setIsLoggedIn(true);
-  } catch (err) {
-    console.error("❌ Error fetching data:", err.message);
-    setUserData(null);
-    setTransactionDataResult([]);
-    alert("⛔ " + err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const handleLogin = () => {
     if (accountNumber.trim() === "") {

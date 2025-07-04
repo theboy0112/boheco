@@ -1,3 +1,10 @@
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,10 +12,13 @@
   text-align: center;
 }
 
-.layout- {
+/* Layout */
+.layout-container {
   display: flex;
   min-height: calc(100vh - 60px);
+  position: relative;
 }
+
 .sidebar {
   width: 120px;
   background-color: #ecf0f1;
@@ -19,16 +29,18 @@
   border-radius: 0 10px 10px 0;
   transition: width 0.3s ease, background-color 0.3s ease;
   position: fixed;
-  top: 0px;
+  top: 0;
   left: 0;
   bottom: 0;
   z-index: 100;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
 }
+
 .sidebar:hover {
   width: 300px;
   background-color: #d5dbdb;
 }
+
 .sidebar h1 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
@@ -36,6 +48,7 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .sidebar:hover h1 {
   opacity: 1;
 }
@@ -45,6 +58,7 @@
   height: auto;
   margin-bottom: 1rem;
   transition: width 0.3s ease;
+  display: block;
 }
 
 .sidebar:hover .boheco-logo {
@@ -85,13 +99,18 @@
   width: 16px;
   height: 16px;
   margin-right: 8px;
+  flex-shrink: 0;
 }
+
+/* Content area */
 .content {
-  margin: 0 auto;
-  max-width: 1300px;
+  margin-left: 130px;
+  padding: 1rem;
+  width: calc(100% - 130px);
   overflow-x: auto;
-  margin-left: 50px;
 }
+
+/* Table styles */
 .table {
   text-align: justify;
   width: 100%;
@@ -104,21 +123,26 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  -white-space: nowrap;
+  margin-bottom: 1rem;
 }
-td {
+
+.table td {
   word-break: break-word;
   white-space: normal;
 }
+
 .table tbody tr {
-  transition: filter 0.3 ease;
+  transition: filter 0.3s ease;
 }
+
 .table tbody:hover tr {
   filter: blur(3px);
 }
+
 .table tbody tr:hover {
   filter: none;
 }
+
 .table th {
   background-color: #0077cc;
   color: white;
@@ -141,12 +165,15 @@ td {
 .table tr:hover td {
   background-color: #d9f5e5;
 }
+
+/* Bill history */
 .bill-history {
   position: relative;
   overflow: hidden;
   width: 90%;
   height: 90px;
   background-color: transparent;
+  margin: 0 auto;
 }
 
 .bill-history h1 {
@@ -166,6 +193,7 @@ td {
   }
 }
 
+/* Login form */
 .login-details {
   background-color: #36494e;
   padding: 2rem;
@@ -175,6 +203,11 @@ td {
   margin: 2rem auto;
   color: white;
 }
+
+.container {
+  text-align: center;
+}
+
 .logo-img:hover {
   filter: brightness(100) drop-shadow(0 0 100px rgb(255, 255, 6));
   transition: filter 0.5s ease;
@@ -204,10 +237,7 @@ td {
   background-color: white;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
-.container login-details{
-  
-  text-align: center;
-}
+
 .login-details button {
   width: 100%;
   padding: 12px;
@@ -223,27 +253,63 @@ td {
   box-shadow: 0 4px 8px rgba(66, 29, 29, 0.2);
 }
 
+.login-details button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(66, 29, 29, 0.3);
+}
+
 .login-details button:disabled {
   background: #6c757d;
   cursor: not-allowed;
   transform: none;
 }
 
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+
+/* Desktop and large screens */
+@media (min-width: 1200px) {
+  .sidebar {
+    width: 140px;
+  }
+  
+  .content {
+    margin-left: 150px;
+    width: calc(100% - 150px);
+  }
+}
+
+/* Tablets */
 @media (max-width: 1024px) {
   #root {
     padding: 0.5rem;
   }
 
-  .header {
-    padding: 0.8rem 1rem;
-    font-size: 1.3rem;
-  }
   .sidebar {
     width: 100px;
   }
+
   .sidebar:hover {
     width: 280px;
   }
+
+  .content {
+    margin-left: 110px;
+    width: calc(100% - 110px);
+  }
+
   .login-details {
     max-width: 350px;
     padding: 1.5rem;
@@ -254,19 +320,26 @@ td {
   }
 }
 
+/* Mobile landscape and small tablets */
 @media (max-width: 768px) {
-  .header {
-    padding: 0.8rem 1rem;
-    font-size: 1.2rem;
+  .layout-container {
+    flex-direction: column;
   }
 
   .sidebar {
     width: 60px;
     padding: 15px 5px;
+    position: relative;
+    height: auto;
+    border-radius: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .sidebar:hover {
     width: 250px;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
   }
 
   .boheco-logo {
@@ -281,6 +354,13 @@ td {
     font-size: 12px;
     padding: 6px 8px;
   }
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+    padding: 0.5rem;
+  }
+
   .table {
     font-size: 12px;
     display: block;
@@ -296,10 +376,11 @@ td {
 
   .bill-history {
     height: 80px;
+    width: 100%;
   }
 
   .bill-history h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .login-details {
@@ -317,21 +398,25 @@ td {
     font-size: 14px;
     padding: 10px 12px;
   }
+
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
+  
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
 }
 
+/* Mobile portrait */
 @media (max-width: 480px) {
   #root {
     padding: 0.25rem;
-  }
-  .header {
-    padding: 0.6rem 0.5rem;
-    font-size: 1rem;
   }
 
   .sidebar {
     width: 50px;
     padding: 10px 3px;
-    border-radius: 0;
   }
 
   .sidebar:hover {
@@ -360,6 +445,7 @@ td {
     height: 14px;
     margin-right: 6px;
   }
+
   .table {
     font-size: 11px;
     overflow-x: scroll;
@@ -399,12 +485,8 @@ td {
   }
 }
 
+/* Very small screens */
 @media (max-width: 360px) {
-  .header {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.3rem;
-  }
-
   .sidebar {
     width: 45px;
   }
@@ -441,6 +523,7 @@ td {
   }
 }
 
+/* Landscape orientation on mobile */
 @media (max-height: 500px) and (orientation: landscape) {
   .sidebar {
     position: relative;
@@ -457,10 +540,12 @@ td {
   .layout-container {
     flex-direction: column;
   }
-.container{
-  
-  text-align: center;
-}
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
+
   .bill-history {
     height: 40px;
   }
@@ -470,23 +555,50 @@ td {
   }
 }
 
-.text-center {
-  text-align: center;
-}
-
-.mt-2 {
-  margin-top: 1rem;
-}
-
-.mb-2 {
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 768px) {
-  .mt-2 {
-    margin-top: 0.5rem;
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .sidebar:hover {
+    width: 120px;
   }
-  .mb-2 {
-    margin-bottom: 0.5rem;
+  
+  .sidebar.active {
+    width: 250px;
+  }
+  
+  .sidebar a:hover {
+    transform: none;
+  }
+  
+  .table tbody:hover tr {
+    filter: none;
+  }
+  
+  .table tbody tr:hover {
+    filter: none;
+  }
+  
+  .table tr:hover td {
+    background-color: inherit;
+  }
+}
+
+/* Print styles */
+@media print {
+  .sidebar {
+    display: none;
+  }
+  
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .bill-history {
+    animation: none;
+  }
+  
+  .bill-history h1 {
+    position: static;
+    animation: none;
   }
 }
