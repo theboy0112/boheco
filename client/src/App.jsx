@@ -7,7 +7,6 @@ import name from "./assets/name.png";
 import contact from "./assets/contact.png";
 import email from "./assets/email.png";
 
-
 import light from "./assets/light.png";
 
 function App() {
@@ -16,6 +15,7 @@ function App() {
   const [transactionDataResult, setTransactionDataResult] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
@@ -56,73 +56,87 @@ function App() {
 
   const handleLogin = () => {
     if (accountNumber.trim() === "") {
-      alert(" ⚠️Please enter an account number.");
-
+      alert("⚠️ Please enter an account number.");
       return;
     }
     fetchData();
   };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
   console.log(transactionDataResult);
   return (
-    <div className="container">
+    <div className="min-h-screen bg-gray-100">
       {!isLoggedIn ? (
-        <div className="login-details">
-          <h3>BOHECO</h3>
-          <h3>Serving You to Light and Delight</h3>
-          <input
-            type="text"
-            placeholder="Input 10-digit Account Number"
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
-          />
-          <button onClick={handleLogin} disabled={loading}>
-            {loading ? "Please Wait...." : "Proceed"}
-          </button>
+        <div className="container">
+          <div className="login-details">
+            <h3>BOHECO</h3>
+            <h3>Serving You to Light and Delight</h3>
+            <input
+              type="text"
+              placeholder="Input 10-digit Account Number"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+            />
+            <button onClick={handleLogin} disabled={loading}>
+              {loading ? "Please Wait...." : "Proceed"}
+            </button>
+          </div>
         </div>
       ) : (
         <div className="layout-container">
-          <div className="sidebar">
+          <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+            ☰
+          </button>
+
+          <div
+            className={`mobile-overlay ${isMobileMenuOpen ? "active" : ""}`}
+            onClick={toggleMobileMenu}
+          ></div>
+
+          {/* Sidebar */}
+          <div className={`sidebar ${isMobileMenuOpen ? "active" : ""}`}>
             <h1>BOHECO 1</h1>
-            <img src={boheco} className="boheco-logo" />
+            <img src={boheco} className="boheco-logo" alt="Boheco Logo" />
             <ul>
               <li>
                 <a>{accountNumber}</a>
               </li>
               <li>
                 <a>
-                  <img src={name} /> {userData.ConsumerName}
+                  <img src={name} alt="Name" /> {userData?.ConsumerName}
                 </a>
               </li>
               <li>
                 <a>
-                  <img src={location} /> {userData.ConsumerAddress}
+                  <img src={location} alt="Location" />{" "}
+                  {userData?.ConsumerAddress}
                 </a>
               </li>
               <li>
-                <a>Meter Number: {userData.MeterNumber}</a>
+                <a>Meter Number: {userData?.MeterNumber}</a>
               </li>
               <li>
                 <a>
-                  <img src={contact} />{" "}
-                  {userData.ContactNumber == null
+                  <img src={contact} alt="Contact" />
+                  {userData?.ContactNumber == null
                     ? "null"
-                    : userData.ContactNumber}
+                    : userData?.ContactNumber}
                 </a>
               </li>
               <li>
                 <a>
-                  <img src={email} />
-                  {userData.Email == null ? "null" : userData.Email}
+                  <img src={email} alt="Email" />
+                  {userData?.Email == null ? "null" : userData?.Email}
                 </a>
               </li>
               <li>
-                <a>Route Code: {userData.Route}</a>
+                <a>Route Code: {userData?.Route}</a>
               </li>
               <li>
                 <button
-                  onClick={() =>
-                    (window.location.href = "https://boheco1.com/")
-                  }
+                  onClick={() => window.open("https://boheco1.com/", "_blank")}
                 >
                   Visit our official Page
                 </button>
@@ -130,8 +144,10 @@ function App() {
               <li>
                 <button
                   onClick={() =>
-                    (window.location.href =
-                      "https://boheco1.com/index.php/about-us/")
+                    window.open(
+                      "https://boheco1.com/index.php/about-us/",
+                      "_blank"
+                    )
                   }
                 >
                   About us
@@ -139,21 +155,15 @@ function App() {
               </li>
             </ul>
           </div>
-          <div className="bill-history">
-            <h1>
-              {" "}
-              <img src={light} /> BOHECO UNO BILLING SYSTEM <img src={light} />{" "}
-            </h1>
-          </div>
-          <div
-            className="content"
-            style={{
-              width: "100%",
-              maxHeight: "690px",
-              overflowX: "hidden",
-              overflowY: "auto",
-            }}
-          >
+
+          <div className="main-content">
+            <div className="bill-history">
+              <div className="bill-history-text">
+                <img src={light} alt="Light" /> BOHECO UNO BILLING SYSTEM{" "}
+                <img src={light} alt="Light" />
+              </div>
+            </div>
+
             <div className="content">
               <table className="table">
                 <thead>
@@ -185,7 +195,6 @@ function App() {
                         {item.NetAmountPaid == null ? "✖" : "✔"}
                       </td>
                       <td>{item.BillNumber}</td>
-
                       <td>₱{item.NetAmount}</td>
                       <td>{item.PowerKWH}</td>
                       <td>
@@ -194,15 +203,14 @@ function App() {
                           ? "0.00"
                           : parseFloat(item.Surcharges).toFixed(2)}
                       </td>
-
                       <td>
-                        {"₱" +
-                          (
-                            parseFloat(item.NetAmount) +
-                            (item.NetAmountPaid == null
-                              ? parseFloat(item.Surcharges)
-                              : 0)
-                          ).toFixed(2)}
+                        ₱
+                        {(
+                          parseFloat(item.NetAmount) +
+                          (item.NetAmountPaid == null
+                            ? parseFloat(item.Surcharges)
+                            : 0)
+                        ).toFixed(2)}
                       </td>
                       <td>
                         {new Date(item.DueDate).toLocaleDateString("en-US", {
@@ -215,18 +223,76 @@ function App() {
                   ))}
                 </tbody>
               </table>
+
+              {/* Mobile Card Layout */}
+              <div className="mobile-card-container">
+                {transactionDataResult.map((item, idx) => (
+                  <div key={idx} className="mobile-card">
+                    <h3>
+                      {new Date(item.DueDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                      })}{" "}
+                      - {item.BillNumber}
+                    </h3>
+                    <div className="card-row">
+                      <span className="card-label">Payment Status:</span>
+                      <span
+                        className="card-value"
+                        style={{
+                          color: item.NetAmountPaid == null ? "red" : "green",
+                        }}
+                      >
+                        {item.NetAmountPaid == null ? "✖ Unpaid" : "✔ Paid"}
+                      </span>
+                    </div>
+                    <div className="card-row">
+                      <span className="card-label">Amount Due:</span>
+                      <span className="card-value">₱{item.NetAmount}</span>
+                    </div>
+                    <div className="card-row">
+                      <span className="card-label">kWh Used:</span>
+                      <span className="card-value">{item.PowerKWH}</span>
+                    </div>
+                    <div className="card-row">
+                      <span className="card-label">Surcharges:</span>
+                      <span className="card-value">
+                        ₱
+                        {item.NetAmountPaid != null
+                          ? "0.00"
+                          : parseFloat(item.Surcharges).toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="card-row">
+                      <span className="card-label">Total Amount:</span>
+                      <span className="card-value">
+                        ₱
+                        {(
+                          parseFloat(item.NetAmount) +
+                          (item.NetAmountPaid == null
+                            ? parseFloat(item.Surcharges)
+                            : 0)
+                        ).toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="card-row">
+                      <span className="card-label">Due Date:</span>
+                      <span className="card-value">
+                        {new Date(item.DueDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          <div
-            style={{
-              color: "black",
-              fontSize: "13px",
-              fontStyle: "italic",
-              marginTop: "1px",
-            }}
-          >
-            {" "}
-            © 2025 Bohol I Electric Cooperative, Inc. All Rights Reserved.
+
+            <div className="footer">
+              © 2025 Bohol I Electric Cooperative, Inc. All Rights Reserved.
+            </div>
           </div>
         </div>
       )}
