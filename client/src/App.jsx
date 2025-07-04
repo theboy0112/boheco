@@ -6,7 +6,7 @@ import location from "./assets/location.png";
 import name from "./assets/name.png";
 import contact from "./assets/contact.png";
 import email from "./assets/email.png";
-import bg from "./assets/bg.jpg";
+
 
 import light from "./assets/light.png";
 
