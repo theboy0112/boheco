@@ -16,39 +16,44 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async () => {
-    setLoading(true);
-    const cleanedAccountNumber = accountNumber.trim();
+ const fetchData = async () => {
+  setLoading(true);
+  const cleanedAccountNumber = accountNumber.trim();
 
-    // ✅ Use the Netlify function URLs only
-    const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
-    const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
 
-    try {
-      const [transactionRes, userRes] = await Promise.all([
-        fetch(transactionUrl),
-        fetch(accountUserUrl),
-      ]);
+  const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
+  const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
 
-      if (!transactionRes.ok || !userRes.ok) {
-        throw new Error("One of the requests failed");
-      }
+  try {
+    const [transactionRes, userRes] = await Promise.all([
+      fetch(transactionUrl),
+      fetch(accountUserUrl),
+    ]);
 
-      const transactionData = await transactionRes.json();
-      const userInfo = await userRes.json();
-
-      setUserData(userInfo);
-      setTransactionDataResult(transactionData);
-      setIsLoggedIn(true);
-    } catch (err) {
-      console.error("Error fetching data:", err.message);
-      setUserData(null);
-      setTransactionDataResult([]);
-      alert("⛔Failed to fetch data. Check account number.");
-    } finally {
-      setLoading(false);
+    if (!transactionRes.ok || !userRes.ok) {
+      throw new Error("One of the requests failed");
     }
-  };
+
+    const transactionData = await transactionRes.json();
+    const userInfo = await userRes.json();
+
+    if (userInfo.error || transactionData.error) {
+      throw new Error(userInfo.error || transactionData.error);
+    }
+
+    setUserData(userInfo);
+    setTransactionDataResult(transactionData);
+    setIsLoggedIn(true);
+  } catch (err) {
+    console.error("❌ Error fetching data:", err.message);
+    setUserData(null);
+    setTransactionDataResult([]);
+    alert("⛔ " + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
   const handleLogin = () => {
     if (accountNumber.trim() === "") {
       alert(" ⚠️Please enter an account number.");
