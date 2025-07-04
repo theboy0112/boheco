@@ -19,21 +19,23 @@ function App() {
   const fetchData = async () => {
     setLoading(true);
     const cleanedAccountNumber = accountNumber.trim();
-    const transactionUrl = `http://119.93.33.254:8447/inquiry-api/public/api/get-latest-bills?q=${cleanedAccountNumber}`;
-    const accountUserUrl = `http://119.93.33.254:8447/inquiry-api/public/api/get-account-by-account-number?acctNo=${cleanedAccountNumber}`;
+
+    // ✅ Use the Netlify function URLs only
+    const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
+    const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
 
     try {
       const [transactionRes, userRes] = await Promise.all([
         fetch(transactionUrl),
         fetch(accountUserUrl),
       ]);
-      const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
-const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
-
 
       if (!transactionRes.ok || !userRes.ok) {
         throw new Error("One of the requests failed");
       }
+
+      const transactionData = await transactionRes.json();
+      const userInfo = await userRes.json();
 
       setUserData(userInfo);
       setTransactionDataResult(transactionData);
