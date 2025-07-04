@@ -1,7 +1,7 @@
 [build]
   base = "client"
-  publish = "client/dist"
-  functions = "netlify/functions"
+  publish = "dist"
+  functions = "../netlify/functions"
 
 [dev]
-  functions = "netlify/functions"
+  functions = "../netlify/functions"
