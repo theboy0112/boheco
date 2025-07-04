@@ -27,8 +27,9 @@ function App() {
         fetch(transactionUrl),
         fetch(accountUserUrl),
       ]);
-      const transactionData = await transactionRes.json();
-      const userInfo = await userRes.json();
+      const transactionUrl = `/.netlify/functions/proxy?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
+const accountUserUrl = `/.netlify/functions/proxy?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
+
 
       if (!transactionRes.ok || !userRes.ok) {
         throw new Error("One of the requests failed");
