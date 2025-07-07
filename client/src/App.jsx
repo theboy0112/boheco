@@ -17,41 +17,41 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
-  setLoading(true);
-  const cleanedAccountNumber = accountNumber.trim();
+    setLoading(true);
+    const cleanedAccountNumber = accountNumber.trim();
 
-  const baseUrl = "/.netlify/functions/proxy";
-  
-  const transactionUrl = `${baseUrl}?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
-  const accountUserUrl = `${baseUrl}?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
+    const baseUrl = "/.netlify/functions/proxy";
 
-  try {
-    const [transactionRes, userRes] = await Promise.all([
-      fetch(transactionUrl),
-      fetch(accountUserUrl),
-    ]);
+    const transactionUrl = `${baseUrl}?endpoint=get-latest-bills&q=${cleanedAccountNumber}`;
+    const accountUserUrl = `${baseUrl}?endpoint=get-account-by-account-number&acctNo=${cleanedAccountNumber}`;
 
-    if (!transactionRes.ok || !userRes.ok) {
-      throw new Error("One of the requests failed");
+    try {
+      const [transactionRes, userRes] = await Promise.all([
+        fetch(transactionUrl),
+        fetch(accountUserUrl),
+      ]);
+
+      if (!transactionRes.ok || !userRes.ok) {
+        throw new Error("One of the requests failed");
+      }
+
+      const transactionData = await transactionRes.json();
+      const userInfo = await userRes.json();
+
+      if (userInfo.error || transactionData.error) {
+        throw new Error(userInfo.error || transactionData.error);
+      }
+
+      setUserData(userInfo);
+      setTransactionDataResult(transactionData);
+      setIsLoggedIn(true);
+    } catch (err) {
+      console.error("❌ Error fetching data:", err.message);
+      alert("⛔ " + err.message);
+    } finally {
+      setLoading(false);
     }
-
-    const transactionData = await transactionRes.json();
-    const userInfo = await userRes.json();
-
-    if (userInfo.error || transactionData.error) {
-      throw new Error(userInfo.error || transactionData.error);
-    }
-
-    setUserData(userInfo);
-    setTransactionDataResult(transactionData);
-    setIsLoggedIn(true);
-  } catch (err) {
-    console.error("❌ Error fetching data:", err.message);
-    alert("⛔ " + err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const handleLogin = () => {
     if (accountNumber.trim() === "") {
@@ -66,7 +66,7 @@ function App() {
     <div className="container">
       {!isLoggedIn ? (
         <div className="login-details">
-          <img src={lb}/>
+          <img src={lb} />
           <h3>BOHECO</h3>
           <h3>Serving You to Light and Delight</h3>
           <input
@@ -137,6 +137,11 @@ function App() {
                 >
                   About us
                 </button>
+                <li>
+                  <button onClick={() => window.location.reload()}>
+                    Logout
+                  </button>
+                </li>
               </li>
             </ul>
           </div>
