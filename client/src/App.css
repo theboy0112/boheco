@@ -26,11 +26,11 @@
   filter: blur(8px);
   transition: filter 0.3s ease;
 }
-.sidebar li button{
- display: block;
+.sidebar li button {
+  display: block;
   width: 100%;
   padding: 10px;
-   background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   color: white;
   border: none;
   border-radius: 6px;
@@ -228,8 +228,6 @@ td {
       drop-shadow(0 0 40px rgba(255, 255, 0, 1));
   }
 }
-
-
 
 .logo-img:hover {
   filter: brightness(100) drop-shadow(0 0 100px rgb(255, 255, 6));
@@ -526,3 +524,180 @@ td {
     margin-bottom: 0.5rem;
   }
 }
+
+/* --- Responsive Improvements by AI --- */
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.layout- {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+/* Sidebar: Default (desktop/tablet) */
+.sidebar {
+  width: 100px;
+  height: 100vh;
+  background-color: #5d686b;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  color: #2c3e50;
+  overflow: hidden;
+  border-radius: 0 10px 10px 0;
+  transition: width 0.3s ease, background-color 0.3s ease, left 0.3s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar overlay for mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 70vw;
+    max-width: 260px;
+    min-width: 140px;
+    left: -100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 2000;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+    background: #5d686b;
+    transition: left 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .sidebar.open {
+    left: 0;
+  }
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 1999;
+  }
+}
+
+/* Hamburger button for mobile */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2100;
+  width: 40px;
+  height: 40px;
+  background: rgba(93,104,107,0.9);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
+}
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  margin: 4px auto;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Content area: dynamic margin for sidebar */
+.content {
+  margin: 0 auto;
+  max-width: 1300px;
+  overflow-x: auto;
+  margin-left: 110px;
+  transition: margin-left 0.3s;
+}
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 70px;
+  }
+}
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+}
+
+/* Table: responsive improvements */
+.table {
+  width: 100%;
+  table-layout: auto;
+  word-wrap: break-word;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: clamp(12px, 2vw, 16px);
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: block;
+  max-width: 100vw;
+}
+.table thead, .table tbody, .table tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+@media (max-width: 600px) {
+  .table, .table thead, .table tbody, .table tr, .table th, .table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .table th, .table td {
+    min-width: unset;
+    padding: 8px 4vw;
+    font-size: clamp(10px, 4vw, 14px);
+    text-align: left;
+  }
+  .table th {
+    background: #0077cc;
+    color: #fff;
+    font-weight: bold;
+  }
+  .table td {
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+/* Utility: make tap targets bigger */
+.sidebar li button, .sidebar a, .login-details button {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: clamp(13px, 2vw, 16px);
+}
+
+/* Use relative units for spacing and font sizes */
+.login-details, .bill-history, .sidebar, .content {
+  font-size: clamp(13px, 2vw, 16px);
+  padding: clamp(0.5rem, 2vw, 2rem);
+}
+
+/* Add smooth transitions for interactive elements */
+.sidebar, .sidebar a, .sidebar li button, .login-details button {
+  transition: all 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+/* --- End Responsive Improvements by AI --- */
