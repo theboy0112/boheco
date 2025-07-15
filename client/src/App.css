@@ -1,6 +1,81 @@
-/* --- Responsive Improvements by AI (2024-06) --- */
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
 
-/* 1. Sidebar: overlay/drawer style for mobile, fixed for desktop */
+/* Layout container */
+.layout-container {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+/* Hamburger menu - hidden by default, shown on mobile */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2100;
+  width: 44px;
+  height: 44px;
+  background: rgba(93, 104, 107, 0.95);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hamburger:hover {
+  background: rgba(93, 104, 107, 1);
+  transform: scale(1.05);
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 3px auto;
+  background: #fff;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Sidebar backdrop for mobile */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-backdrop.active {
+  opacity: 1;
+}
+
+/* Sidebar */
 .sidebar {
   width: 100px;
   height: 100vh;
@@ -10,166 +85,15 @@
   color: #2c3e50;
   overflow: hidden;
   border-radius: 0 10px 10px 0;
-  transition: width 0.3s, background-color 0.3s, left 0.3s;
+  transition: width 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: 100;
+  z-index: 2000;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
 }
-@media (max-width: 900px) {
-  .sidebar {
-    width: 70vw;
-    max-width: 260px;
-    min-width: 140px;
-    left: -100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    z-index: 2000;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
-    background: #5d686b;
-    transition: left 0.3s cubic-bezier(.4,0,.2,1);
-  }
-  .sidebar.open {
-    left: 0;
-  }
-  .sidebar-backdrop {
-    display: block;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.3);
-    z-index: 1999;
-  }
-}
 
-/* 2. Hamburger button for mobile */
-.hamburger {
-  display: none;
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 2100;
-  width: 40px;
-  height: 40px;
-  background: rgba(93,104,107,0.9);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.2s;
-}
-.hamburger span {
-  display: block;
-  width: 24px;
-  height: 3px;
-  margin: 4px auto;
-  background: #fff;
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-@media (max-width: 900px) {
-  .hamburger {
-    display: flex;
-  }
-}
-
-/* 3. Content area: dynamic margin for sidebar */
-.content {
-  margin: 0 auto;
-  max-width: 1300px;
-  overflow-x: auto;
-  margin-left: 110px;
-  transition: margin-left 0.3s;
-}
-@media (max-width: 1024px) {
-  .content {
-    margin-left: 70px;
-  }
-}
-@media (max-width: 900px) {
-  .content {
-    margin-left: 0;
-    padding-top: 60px;
-  }
-}
-
-/* 4. Table: responsive improvements */
-.table {
-  width: 100%;
-  table-layout: auto;
-  word-wrap: break-word;
-  border-collapse: collapse;
-  font-family: sans-serif;
-  font-size: clamp(12px, 2vw, 16px);
-  background-color: #fff;
-  border-radius: 8px;
-  overflow: auto;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  display: block;
-  max-width: 100vw;
-}
-.table thead, .table tbody, .table tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
-@media (max-width: 700px) {
-  .table, .table thead, .table tbody, .table tr, .table th, .table td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .table th, .table td {
-    min-width: unset;
-    padding: 8px 4vw;
-    font-size: clamp(10px, 4vw, 14px);
-    text-align: left;
-  }
-  .table th {
-    background: #0077cc;
-    color: #fff;
-    font-weight: bold;
-  }
-  .table td {
-    background: #f9f9f9;
-    border-bottom: 1px solid #eee;
-  }
-}
-
-/* 5. Utility: make tap targets bigger */
-.sidebar li button, .sidebar a, .login-details button {
-  min-height: 44px;
-  min-width: 44px;
-  font-size: clamp(13px, 2vw, 16px);
-}
-
-/* 6. Use relative units for spacing and font sizes */
-.login-details, .bill-history, .sidebar, .content {
-  font-size: clamp(13px, 2vw, 16px);
-  padding: clamp(0.5rem, 2vw, 2rem);
-}
-
-/* 7. Add smooth transitions for interactive elements */
-.sidebar, .sidebar a, .sidebar li button, .login-details button {
-  transition: all 0.3s cubic-bezier(.4,0,.2,1);
-}
-
-/* --- End Responsive Improvements by AI (2024-06) --- */
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 1rem;
-  text-align: center;
-}
-.layout- {
-  display: flex;
-  min-height: calc(100vh - 60px);
-}
 .sidebar img:hover {
   animation: glowPulse 1s infinite alternate;
 }
@@ -184,56 +108,14 @@
       drop-shadow(0 0 40px rgba(255, 255, 0, 1));
   }
 }
+
 .sidebar:hover table {
   filter: blur(8px);
   transition: filter 0.3s ease;
 }
-.sidebar li button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.sidebar li button:hover {
-  background-color: #c6e224;
-}
+
 .sidebar table:hover {
   filter: none;
-}
-.sidebar {
-  width: 100px;
-  height: 100vh;
-  background-color: #5d686b;
-  padding: 20px 10px;
-  box-sizing: border-box;
-  color: #2c3e50;
-  overflow: hidden;
-  border-radius: 0 10px 10px 0;
-  transition: width 0.3s ease, background-color 0.3s ease;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 100;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-}
-
-@media (min-width: 768px) {
-  .sidebar:hover {
-    width: 300px;
-  }
-
-  .sidebar:hover h1 {
-    opacity: 1;
-  }
-  .sidebar:hover .boheco-logo {
-    width: 150px;
-  }
 }
 
 .sidebar h1 {
@@ -263,6 +145,24 @@
   overflow: hidden;
 }
 
+.sidebar li button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  min-height: 44px;
+  transition: all 0.3s ease;
+}
+
+.sidebar li button:hover {
+  background-color: #c6e224;
+}
+
 .sidebar a {
   display: flex;
   align-items: center;
@@ -273,6 +173,7 @@
   border-radius: 6px;
   transition: all 0.3s ease;
   background-color: rgba(255, 255, 255, 0.5);
+  min-height: 44px;
 }
 
 .sidebar a:hover {
@@ -287,12 +188,17 @@
   margin-right: 8px;
 }
 
+/* Content area */
 .content {
   margin: 0 auto;
   max-width: 1300px;
   overflow-x: auto;
-  margin-left: 50px;
+  margin-left: 110px;
+  transition: margin-left 0.3s ease;
+  padding: 1rem;
 }
+
+/* Table styles */
 .table {
   text-align: justify;
   width: 100%;
@@ -305,21 +211,20 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  -white-space: nowrap;
 }
-td {
-  word-break: break-word;
-  white-space: normal;
-}
+
 .table tbody tr {
-  transition: filter 0.3 ease;
+  transition: filter 0.3s ease;
 }
+
 .table tbody:hover tr {
   filter: blur(8px);
 }
+
 .table tbody tr:hover {
   filter: none;
 }
+
 .table th {
   background-color: #0077cc;
   color: white;
@@ -333,6 +238,8 @@ td {
   border-bottom: 1px solid #ddd;
   color: #333;
   background-color: #f9f9f9;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .table tr:nth-child(even) td {
@@ -342,6 +249,8 @@ td {
 .table tr:hover td {
   background-color: #d9f5e5;
 }
+
+/* Bill history animation */
 .bill-history {
   position: relative;
   overflow: hidden;
@@ -367,6 +276,7 @@ td {
   }
 }
 
+/* Login details */
 .login-details {
   background-color: #36494e;
   padding: 2rem;
@@ -376,19 +286,9 @@ td {
   margin: 2rem auto;
   color: white;
 }
+
 .login-details img {
   animation: glowPulse 0.5s infinite alternate;
-}
-
-@keyframes glowPulse {
-  from {
-    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 1))
-      drop-shadow(0 0 20px rgba(255, 255, 0, 0.8));
-  }
-  to {
-    filter: drop-shadow(0 0 30px rgba(255, 255, 0, 1))
-      drop-shadow(0 0 40px rgba(255, 255, 0, 1));
-  }
 }
 
 .logo-img:hover {
@@ -420,9 +320,7 @@ td {
   background-color: white;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
-.container login-details {
-  text-align: center;
-}
+
 .login-details button {
   width: 100%;
   padding: 12px;
@@ -444,17 +342,52 @@ td {
   transform: none;
 }
 
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+/* Desktop hover effects */
+@media (min-width: 901px) {
+  .sidebar:hover {
+    width: 300px;
+  }
+
+  .sidebar:hover h1 {
+    opacity: 1;
+  }
+
+  .sidebar:hover .boheco-logo {
+    width: 150px;
+  }
+}
+
+/* Tablet styles */
 @media (max-width: 1024px) {
   #root {
     padding: 0.5rem;
   }
 
+  .content {
+    margin-left: 70px;
+  }
+
   .sidebar {
     width: 60px;
   }
+
   .sidebar:hover {
     width: 280px;
   }
+
   .login-details {
     max-width: 350px;
     padding: 1.5rem;
@@ -463,49 +396,104 @@ td {
   .login-details h3 {
     font-size: 1.8rem;
   }
+
+  .mt-2 {
+    margin-top: 0.5rem;
+  }
+
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
 }
 
-@media (max-width: 768px) {
+/* Mobile styles */
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+
   .sidebar {
-    width: 60px;
-    padding: 15px 5px;
+    width: 280px;
+    max-width: 80vw;
+    transform: translateX(-100%);
+    border-radius: 0 10px 10px 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
   }
 
-  .sidebar:hover {
-    width: 250px;
+  .sidebar.open {
+    transform: translateX(0);
   }
 
-  .boheco-logo {
-    width: 50px;
+  .sidebar-backdrop {
+    display: block;
   }
 
-  .sidebar:hover .boheco-logo {
-    width: 120px;
+  .content {
+    margin-left: 0;
+    padding-top: 70px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
-  .sidebar a {
-    font-size: 12px;
-    padding: 6px 8px;
-  }
   .table {
-    font-size: 12px;
+    font-size: 14px;
     display: block;
     overflow-x: auto;
-    white-space: nowrap;
+  }
+
+  .table,
+  .table thead,
+  .table tbody,
+  .table tr,
+  .table th,
+  .table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .table th,
   .table td {
-    padding: 8px 12px;
-    min-width: 100px;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table th {
+    background: #0077cc;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .table td {
+    background: #f9f9f9;
+    font-size: 14px;
   }
 
   .bill-history {
-    height: 80px;
+    height: 70px;
   }
 
   .bill-history h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+}
+
+/* Small mobile styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 250px;
+    padding: 15px 10px;
+  }
+
+  .boheco-logo {
+    width: 60px;
+  }
+
+  .sidebar a {
+    font-size: 13px;
+    padding: 8px 10px;
   }
 
   .login-details {
@@ -525,27 +513,19 @@ td {
   }
 }
 
+/* Extra small mobile styles */
 @media (max-width: 480px) {
   #root {
     padding: 0.25rem;
   }
 
   .sidebar {
-    width: 50px;
-    padding: 10px 3px;
-    border-radius: 0;
-  }
-
-  .sidebar:hover {
-    width: 200px;
+    width: 220px;
+    padding: 15px 8px;
   }
 
   .boheco-logo {
-    width: 35px;
-  }
-
-  .sidebar:hover .boheco-logo {
-    width: 80px;
+    width: 50px;
   }
 
   .sidebar h1 {
@@ -553,8 +533,8 @@ td {
   }
 
   .sidebar a {
-    font-size: 11px;
-    padding: 5px 6px;
+    font-size: 12px;
+    padding: 6px 8px;
   }
 
   .sidebar a img {
@@ -562,24 +542,23 @@ td {
     height: 14px;
     margin-right: 6px;
   }
-  .table {
-    font-size: 11px;
-    overflow-x: scroll;
+
+  .content {
+    padding: 70px 0.5rem 1rem;
   }
 
   .table th,
   .table td {
-    padding: 6px 8px;
-    min-width: 80px;
+    padding: 8px 12px;
+    font-size: 12px;
   }
 
   .bill-history {
     height: 60px;
-    border-radius: 15px;
   }
 
   .bill-history h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .login-details {
@@ -596,28 +575,25 @@ td {
 
   .login-details input,
   .login-details button {
-    font-size: 14px;
+    font-size: 13px;
     padding: 8px 10px;
   }
 }
 
+/* Very small screens */
 @media (max-width: 360px) {
   .sidebar {
-    width: 45px;
+    width: 200px;
   }
 
-  .sidebar:hover {
-    width: 180px;
-  }
-
-  .table {
-    font-size: 10px;
+  .content {
+    padding: 70px 0.25rem 0.5rem;
   }
 
   .table th,
   .table td {
-    padding: 4px 6px;
-    min-width: 70px;
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .bill-history {
@@ -638,25 +614,12 @@ td {
   }
 }
 
+/* Landscape mobile optimization */
 @media (max-height: 500px) and (orientation: landscape) {
   .sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    box-shadow: none;
-    border-radius: 0;
+    width: 200px;
   }
 
-  .sidebar:hover {
-    width: 100%;
-  }
-
-  .layout-container {
-    flex-direction: column;
-  }
-  .container {
-    text-align: center;
-  }
   .bill-history {
     height: 40px;
   }
@@ -664,25 +627,25 @@ td {
   .bill-history h1 {
     font-size: 1rem;
   }
-}
 
-.text-center {
-  text-align: center;
-}
-
-.mt-2 {
-  margin-top: 1rem;
-}
-
-.mb-2 {
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 768px) {
-  .mt-2 {
-    margin-top: 0.5rem;
+  .login-details {
+    padding: 1rem;
+    margin: 0.5rem auto;
   }
-  .mb-2 {
-    margin-bottom: 0.5rem;
+}
+
+/* Light theme */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: #f9f9f9;
   }
 }
