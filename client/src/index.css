@@ -2,13 +2,12 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   color-scheme: light dark;
-  background-color: rgb(119, 52, 52);
+  background: url("/bg.jpg") no-repeat;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 a {
   font-weight: 500;
   color: #151516;
@@ -25,9 +24,8 @@ body {
   padding: 0;
   height: 100%;
   position: relative;
-  overflow-x: hidden; /* Changed from overflow: hidden to allow vertical scrolling */
+  overflow-x: hidden; 
 }
-
 body::before {
   content: "";
   position: absolute;

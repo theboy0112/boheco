@@ -98,33 +98,6 @@
 .sidebar table:hover {
   filter: none;
 }
-
-.hamburger {
-  display: none;
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 2100;
-  width: 40px;
-  height: 40px;
-  background: rgba(93, 104, 107, 0.9);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.2s;
-}
-.hamburger span {
-  display: block;
-  width: 24px;
-  height: 3px;
-  margin: 4px auto;
-  background: #fff;
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-
 .content {
   margin: 0 auto;
   max-width: 1300px;
@@ -136,7 +109,7 @@
 }
 
 .table {
-  width: 100%;
+  width: 80%;
   table-layout: auto;
   border-collapse: collapse;
   font-family: sans-serif;
@@ -301,6 +274,35 @@
     padding: 1.5rem;
   }
 }
+@media (max-width: 480px) {
+  .table {
+    width: auto;
+    border-collapse: collapse;
+  }
+  .table thead {
+    display: none; 
+  }
+  .table tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  .table td {
+    text-align: justify;
+    display: flex;
+    gap: 100px;
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+  }
+  .table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #555;
+  }
+}
+
+
 
 @media (max-width: 900px) {
   .sidebar {
@@ -323,9 +325,6 @@
     bottom: 0;
     background: rgba(0, 0, 0, 0.3);
     z-index: 1999;
-  }
-  .hamburger {
-    display: flex;
   }
   .content {
     margin-left: 0;

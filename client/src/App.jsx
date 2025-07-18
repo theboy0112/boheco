@@ -6,7 +6,6 @@ import location from "./assets/location.png";
 import name from "./assets/name.png";
 import contact from "./assets/contact.png";
 import email from "./assets/email.png";
-import light from "./assets/light.png";
 import lb from "./assets/lb.png";
 
 function App() {
@@ -172,40 +171,39 @@ function App() {
                 <tbody>
                   {transactionDataResult.map((item, idx) => (
                     <tr key={idx}>
-                      <td>
+                      <td data-label="Billing Month">
                         {new Date(item.DueDate).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
                         })}
                       </td>
                       <td
+                        data-label="Payment Status"
                         style={{
                           color: item.NetAmountPaid == null ? "red" : "green",
                         }}
                       >
                         {item.NetAmountPaid == null ? "✖" : "✔"}
                       </td>
-                      <td>{item.BillNumber}</td>
-
-                      <td>₱{item.NetAmount}</td>
-                      <td>{item.PowerKWH}</td>
-                      <td>
+                      <td data-label="Bill Number">{item.BillNumber}</td>
+                      <td data-label="Amount Due">₱{item.NetAmount}</td>
+                      <td data-label="kWh Used">{item.PowerKWH}</td>
+                      <td data-label="Surcharges">
                         ₱
                         {item.NetAmountPaid != null
                           ? "0.00"
                           : parseFloat(item.Surcharges).toFixed(2)}
                       </td>
-
-                      <td>
-                        {"₱" +
-                          (
-                            parseFloat(item.NetAmount) +
-                            (item.NetAmountPaid == null
-                              ? parseFloat(item.Surcharges)
-                              : 0)
-                          ).toFixed(2)}
+                      <td data-label="Total Amount Due">
+                        ₱
+                        {(
+                          parseFloat(item.NetAmount) +
+                          (item.NetAmountPaid == null
+                            ? parseFloat(item.Surcharges)
+                            : 0)
+                        ).toFixed(2)}
                       </td>
-                      <td>
+                      <td data-label="Due Date">
                         {new Date(item.DueDate).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
